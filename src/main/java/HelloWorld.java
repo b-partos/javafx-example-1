@@ -1,3 +1,4 @@
+import data.ui.StageData;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
@@ -45,13 +45,16 @@ public class HelloWorld extends Application {
         ))));
         stage.show();
 
+        Stage textInputStage = StageData.builder().title("Text input").build().toStage();
+        textInputStage.show();
+
 
     }
 
     private Scene createScene(List<Supplier<Node>> nodeSuppliers) {
         Group root = new Group();
         Scene scene = new Scene(root, 300, 250);
-        nodeSuppliers.stream().forEach(s -> root.getChildren().add(s.get()));
+        nodeSuppliers.forEach(s -> root.getChildren().add(s.get()));
         return scene;
     }
 
