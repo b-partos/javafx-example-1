@@ -1,4 +1,4 @@
-package data;
+package data.files;
 
 import lombok.Builder;
 import lombok.Getter;
