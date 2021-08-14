@@ -3,6 +3,7 @@ import data.ui.Layout;
 import data.ui.StageData;
 import data.utils.AssertUtil;
 import data.utils.ButtonUtil;
+import data.utils.FontUtil;
 import data.utils.StageUtil;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -11,21 +12,80 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class HelloWorld extends Application {
+
+    private static char INTEGRAL_SIGN = '\u222B';
 
     public static void main(String[] args) {
         Application.launch(args);
     }
 
-    public void start(Stage primaryStage) {
+    private static void testFont() {
+        Font font = FontUtil.loadFont(FontUtil.TEST_FONT_URL);
+        final Font fontItalic = Font.font(font.getFamily(), FontWeight.NORMAL, FontPosture.ITALIC, 120);
+        List<String> textStrings = Arrays.asList(
+                ""+INTEGRAL_SIGN,
+                "\u2202",
+                "a",
+                "b"
+        );
 
+
+
+        Stage stage = StageUtil.createStage(StageData.builder()
+                .title("Text test")
+                .sceneSupplier(() -> {
+
+
+                    final Text textLarge = new Text("\u222B");
+                    textLarge.setScaleY(1.2);
+                    textLarge.setFont(fontItalic);
+
+
+
+                    List<Text> texts = textStrings.stream().map(Text::new).collect(Collectors.toList());
+                    texts.add(1, textLarge);
+                    texts.forEach(text -> text.setFont(fontItalic));
+
+                    HBox textContainer = new HBox(texts.toArray(new Text[texts.size()]));
+                    Scene scene = new Scene(textContainer);
+
+//                    texts.forEach(t -> System.out.println(t.getBoundsInParent().getHeight()));
+
+                    return scene;
+                })
+                .build());
+
+
+        stage.show();
+
+    }
+
+    public void start(Stage primaryStage) {
+//        Font.getFamilies().forEach(System.out::println);
+        testFont();
+
+//        createWindows(primaryStage);
+
+    }
+
+    private void createWindows(Stage primaryStage) {
         final List<Stage> stageList = new ArrayList<>();
         stageList.add(primaryStage);
 
@@ -71,7 +131,6 @@ public class HelloWorld extends Application {
         stageList.add(textInputStage);
 
         textInputStage.show();
-
     }
 
     private Scene createScene(List<Supplier<Node>> nodeSuppliers) {

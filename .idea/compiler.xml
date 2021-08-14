@@ -10,5 +10,8 @@
         <module name="javafx_project_1" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="csv_reader" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
